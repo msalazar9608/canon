@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canon - Diseño Web Premium</title>
+    
+    <!-- FUENTES: 
+         Inter: Elegida por su excelente legibilidad en pantallas digitales para textos largos.
+         Montserrat: Utilizada en pesos altos (700-900) para transmitir fuerza y autoridad en los titulares.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- ICONOS: Font Awesome para elementos de interacción social en el pie de página. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* VARIABLES DE DISEÑO (Design Tokens)
+           Centralizamos los valores clave para asegurar que el "Rojo Canon" y los contrastes 
+           se mantengan consistentes en todo el documento. 
+        */
+        :root {
+            --canon-red: #E41920;      /* Rojo oficial de marca: Enérgico y pasional */
+            --footer-red: #B10E15;     /* Tono más oscuro para el footer, aporta elegancia y peso visual */
+            --black: #000000;          /* Pure Black: Ideal para resaltar el hardware fotográfico */
+            --white: #ffffff;
+            --gray-light: #f4f4f4;
+            --gray-dark: #1a1a1a;
+            --transition: all 0.3s ease; /* Transición estándar para suavizar hover y cambios de estado */
+        }
+
+        /* RESET Y ESTILOS BASE
+           Eliminamos márgenes por defecto del navegador para tener control total sobre el layout.
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Asegura que el padding no afecte el ancho total de los elementos */
+        }
+
+        html {
+            scroll-behavior: smooth; /* Mejora la experiencia de usuario al navegar por anclas */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden; /* Evita desplazamientos laterales accidentales en móviles */
+            line-height: 1.6;
+        }
+
+        /* NAVEGACIÓN (HEADER)
+           Diseñada para ser minimalista y no distraer del contenido principal.
+           Utiliza backdrop-filter para un efecto "vidrio esmerilado" moderno.
+        */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: padding 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Clase activada por JS cuando el usuario baja la página */
+        header.scrolled {
+            padding: 5px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LOGO: Réplica visual del estilo tipográfico clásico de Canon */
+        .logo {
+            color: var(--canon-red);
+            font-family: 'Georgia', serif;
+            font-weight: 900;
+            font-size: 2rem;
+            text-decoration: none;
+            font-style: italic;
+            letter-spacing: -2px;
+        }
+
+        /* Menú Desktop: Oculto por defecto, se activa en pantallas medianas/grandes */
+        nav.desktop-menu {
+            display: none;
+        }
+
+        nav.desktop-menu a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 30px;
+            transition: var(--transition);
+        }
+
+        nav.desktop-menu a:hover {
+            color: var(--white);
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* MENÚ MÓVIL: Panel desplegable para pantallas pequeñas */
+        .mobile-nav {
+            display: none;
+            background: var(--black);
+            border-top: 1px solid var(--gray-dark);
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .mobile-nav.active {
+            display: flex; /* Se muestra al alternar la clase vía JS */
+        }
+
+        .mobile-nav a {
+            color: #ccc;
+            text-decoration: none;
+            padding: 15px 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* SECCIÓN HERO
+           Impacto visual inmediato. El degradado radial enfoca la mirada en el producto central.
+        */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            overflow: hidden;
+            background: radial-gradient(circle at center, rgba(80,80,80,0.4) 0%, rgba(0,0,0,1) 70%);
+        }
+
+        /* Ajuste de escala para que la imagen de la cámara destaque */
+        .hero-img {
+            width: 300%;
+            height: auto;
+            max-width: 1200px; /* Limitador para no romper el layout en pantallas gigantes */
+            object-fit: contain;
+            filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+            z-index: 10;
+        }
+
+        /* Posicionamiento del eslogan principal */
+        .hero-text {
+            position: absolute;
+            bottom: 10%;
+            left: 5%;
+            text-align: left;
+            z-index: 20;
+        }
+
+        .hero-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem); /* Tipografía responsiva fluida */
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        /* SECCIONES DE CONTENIDO (Lentes / Impresoras)
+           Espaciado generoso (100px) para dejar que el diseño "respire".
+        */
+        .section {
+            padding: 100px 25px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr; /* Una columna para móvil por defecto */
+            gap: 50px;
+            align-items: center;
+        }
+
+        /* Variante blanca para romper la monotonía del negro y resaltar productos específicos */
+        .white-section {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        .section-img-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-img-wrapper img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* Etiquetas "NEW": Un detalle de diseño minimalista muy común en sitios de lujo */
+        .section-content .label {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .line {
+            height: 1px;
+            width: 60px;
+            background-color: var(--canon-red);
+        }
+
+        .label-text {
+            color: var(--canon-red);
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .section-content p {
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            color: inherit;
+            font-weight: 500;
+        }
+
+        /* BOTONES: Call to Action (CTA) con bordes casi rectos (2px) para un look técnico */
+        .btn {
+            display: inline-block;
+            padding: 12px 40px;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .btn-black {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-black:hover {
+            background: #333;
+        }
+
+        .btn-red {
+            background: var(--canon-red);
+            color: var(--white);
+        }
+
+        .btn-red:hover {
+            background: #c1151b;
+        }
+
+        /* FOOTER
+           Cierre de página con el color secundario de marca para jerarquía.
+        */
+        footer {
+            background-color: var(--footer-red);
+            color: var(--white);
+            padding: 40px 25px;
+            border-top: 4px solid var(--canon-red); /* Detalle de línea de color de marca */
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--white);
+            color: var(--footer-red);
+        }
+
+        .copyright {
+            font-weight: 300;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* ANIMACIONES DE APARICIÓN (Scroll Reveal)
+           Efecto de desplazamiento hacia arriba y desvanecimiento para una carga fluida.
+        */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE DESIGN (PC / Tablets)
+           Cambiamos la rejilla a dos columnas para aprovechar el ancho de pantalla.
+        */
+        @media (min-width: 768px) {
+            nav.desktop-menu {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            .container {
+                grid-template-columns: 1fr 1fr; /* Imagen al lado del texto */
+            }
+
+            /* Permite alternar el orden visual (Imagen izquierda vs derecha) */
+            .order-md-2 {
+                order: 2;
+            }
+
+            .footer-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA: Identidad y Navegación Principal -->
+    <header id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Canon</a>
+
+            <!-- Acceso rápido para usuarios móviles -->
+            <button class="mobile-menu-btn" id="mobile-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Menú de escritorio con espaciado amplio -->
+            <nav class="desktop-menu">
+                <a href="">Objetivos</a>
+                <a href="">Cámaras</a>
+                <a href="">Videocamaras</a>
+                <a href="">Impresoras</a>
+                <!-- <a href="objetivos.html">Objetivos</a>
+                <a href="camaras.html">Cámaras</a>
+                <a href="videocamaras.html">Videocamaras</a>
+                <a href="impresoras.html">Impresoras</a> -->
+            </nav>
+        </div>
+        
+        <!-- Panel móvil: Se activa mediante la clase 'active' en JS -->
+        <div class="mobile-nav" id="mobile-menu">
+            <a href="">Objetivos</a>
+            <a href="">Cámaras</a>
+            <a href="">Videocamaras</a>
+            <a href="">Impresoras</a>
+            <!-- <a href="objetivos.html">Objetivos</a>
+            <a href="camaras.html">Cámaras</a>
+            <a href="videocamaras.html">Videocamaras</a>
+            <a href="impresoras.html">Impresoras</a> -->
+        </div>
+    </header>
+
+    <main>
+        <!-- SECCIÓN DE BIENVENIDA: El producto estrella en primer plano -->
+        <section class="hero">
+            <img src="Media/camara.png" alt="Cámara Canon" class="hero-img reveal">
+            <div class="hero-text reveal" style="transition-delay: 0.3s;">
+                <h1>DILIGHTING<br>YOU ALWAYS</h1>
+            </div>
+        </section>
+
+        <!-- SECCIÓN OBJETIVOS: Alternancia visual a fondo blanco -->
+        <section class="section white-section">
+            <div class="container">
+                <!-- Imagen del producto -->
+                <div class="section-img-wrapper reveal">
+                    <img src="Media/objetivos.png" alt="Objetivos Canon">
+                </div>
+                <!-- Información técnica/comercial -->
+                <div class="section-content reveal" style="transition-delay: 0.3s;">
+                    <div class="label">
+                        <div class="line"></div>
+                        <span class="label-text">NEW</span>
+                    </div>
+                    <p>
+                        Imagina capturar paisajes impresionantes, arquitectura majestuosa y momentos únicos con una nitidez espectacular. Este objetivo cuenta con un innovador motor Nano USM que garantiza un enfoque rápido y silencioso, mientras que su mecanismo de estabilización de imagen de 5 pasos te permitirá disparar con confianza incluso en las condiciones más desafiantes.
+                    </p>
+                    <a href="objetivos.html" class="btn btn-black">INFO</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN IMPRESORAS: Contraste oscuro y cambio de orden visual -->
+        <section class="section">
+            <div class="container">
+                <!-- La clase 'order-md-2' mueve la imagen a la derecha en pantallas grandes -->
+                <div class="section-img-wrapper reveal order-md-2">
+                    <img src="Media/impresora.png" alt="Impresora Canon PIXMA" style="opacity: 0.9;">
+                </div>
+                <div class="section-content reveal" style="transition-delay: 0.3s;">
+                    <div class="label">
+                        <div class="line"></div>
+                        <span class="label-text">NEW</span>
+                    </div>
+                    <p>
+                         La PIXMA TS7450i cuenta con un rango impresionante de tratamientos de impresión que te permitirá dar rienda suelta a tu creatividad. Además, con la innovadora tecnología ADF (alimentador automático de documentos), manejar múltiples páginas nunca ha sido tan fácil y eficiente.
+                    </p>
+                    <!-- Uso del botón rojo para destacar sobre fondo oscuro -->
+                    <a href="impresoras.html" class="btn btn-red">INFO</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PIE DE PÁGINA: Contacto social y Copyright -->
+    <footer>
+        <div class="footer-container">
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="copyright">
+                © Canon — All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DE INTERACCIÓN (JavaScript) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /**
+             * 1. GESTIÓN DEL MENÚ MÓVIL
+             * Intercambia la visibilidad del menú al hacer clic en el botón de hamburguesa.
+             */
+            const mobileBtn = document.getElementById('mobile-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+
+            /**
+             * 2. DINÁMICA DE LA BARRA DE NAVEGACIÓN
+             * Añade una sombra y cambia la opacidad cuando el usuario se desplaza hacia abajo
+             * para mejorar la legibilidad sobre el contenido que pasa por detrás.
+             */
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            /**
+             * 3. OBSERVADOR DE INTERSECCIÓN (Scroll Reveal)
+             * Detecta cuándo un elemento entra en el campo visual del usuario y dispara
+             * la animación de entrada definida en el CSS (.reveal).
+             */
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15 // El elemento debe estar visible al menos un 15% para activarse
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Opcional: dejar de observar una vez animado para optimizar rendimiento
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, revealOptions);
+
+            // Vinculamos el observador a cada elemento con la clase .reveal
+            reveals.forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
